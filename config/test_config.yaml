@@ -1,0 +1,41 @@
+preprocessing:
+  scaler:
+    - todo
+
+train_test_split:
+  test_size: 0.3 # do not change value
+  random_state: 20
+
+model:
+  type: "BaggingRegressor"
+  params:
+    random_state: 420
+    n_jobs: -1
+    n_estimators: 900
+
+#model:
+#  type: "RandomForestRegressor"
+#  params:
+#    random_state: 420
+#    n_jobs: -1
+#    n_estimators: 900
+#
+#model:
+#  type: "DecisionTreeRegressor"
+#  params:
+#    random_state: 420
+
+#model:
+#  type: "KernelRidge"
+#  params:
+#    alpha: 0.01
+
+#model:
+#  type: "GaussianProcessRegressor"
+#  params:
+#    alpha: 0.001
+
+#model:
+#  type: "GradientBoostingRegressor"
+#  params:
+#    random_state: 420
