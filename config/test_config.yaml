@@ -7,7 +7,7 @@ train_test_split:
   random_state: 20
 
 model:
-  model_library: "sklearn"
+  model_library: "keras"
   type: "BaggingRegressor"
   params:
     random_state: 420

@@ -1,4 +1,3 @@
-import tensorflow as tf
 from tensorflow import keras
 
 
@@ -29,23 +28,40 @@ def WIP_keras_model(x_train, y_train):
     print("Target shape:", targets.numpy().shape)
     print("Target value:", targets.numpy()[0])
 
-    model = tf.keras.Sequential([
-        keras.layers.LSTM(32),
-        tf.keras.layers.Dense(units=16, activation="relu"),
-        tf.keras.layers.Dense(units=1)
+    keras.utils.set_random_seed(420)  # todo config
+
+    # model = tf.keras.Sequential([
+    #     keras.layers.LSTM(32),
+    #     keras.layers.Dense(units=4, activation="relu"),
+    #     keras.layers.Dense(units=1)
+    # ])
+
+    # model = keras.Sequential([
+    #     keras.layers.SimpleRNN(units=16, input_shape=(1, 1), activation="relu"),
+    #     keras.layers.Dense(units=4, activation="relu"),
+    #     keras.layers.Dense(units=1)
+    # ])
+    model = keras.Sequential([
+        keras.layers.Bidirectional(
+        keras.layers.SimpleRNN(units=8, input_shape=(1, 1), activation="relu"),
+        ),
+        keras.layers.Dense(units=8, activation="relu"),
+        keras.layers.Dense(units=4, activation="relu"),
+        keras.layers.Dense(units=1)
 
     ])
-    early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss',
+
+    early_stopping = keras.callbacks.EarlyStopping(monitor='val_loss',
                                                       patience=6,
                                                       mode='min')
 
-    model.compile(loss=tf.keras.losses.MeanSquaredError(),
-                  optimizer=tf.keras.optimizers.Adam(),
-                  metrics=[tf.keras.metrics.MeanAbsoluteError()])
+    model.compile(loss=keras.losses.MeanSquaredError(),
+                  optimizer=keras.optimizers.Adam(),
+                  metrics=[keras.metrics.MeanAbsoluteError()])
 
     model.fit(dataset_train,
               epochs=40,
-              batch_size=30,
+              batch_size=35,
               # validation_data=dataset_val,
               callbacks=[early_stopping])
 
