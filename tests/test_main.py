@@ -1,4 +1,3 @@
-import sys
 from unittest import TestCase
 
 from src.main import run

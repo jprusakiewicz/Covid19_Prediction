@@ -10,9 +10,11 @@ def preprocess_data(df: pd.DataFrame):
     df = df[df["countryterritoryCode"] == "POL"]
     df['dateRep'] = pd.to_datetime(df['dateRep'], format="%d/%m/%Y")
     df = df.sort_values("dateRep")
-    cleaned_data = df.drop(["countryterritoryCode", "continentExp", "geoId", "countriesAndTerritories", "dateRep", "day", "month", "year", "popData2020", "deaths"], axis=1)
+    cleaned_data = df.drop(
+        ["countryterritoryCode", "continentExp", "geoId", "countriesAndTerritories", "dateRep", "day", "month", "year",
+         "popData2020", "deaths"], axis=1)
     cleaned_data['cases_next_day'] = df['cases'].shift(-1)
-    x = cleaned_data.drop(["cases_next_day"],  axis=1).values[:-1]
+    x = cleaned_data.drop(["cases_next_day"], axis=1).values[:-1]
     y = cleaned_data["cases_next_day"].values[:-1]
     return train_test_split(x, y, test_size=0.3, shuffle=False)
 
