@@ -1,4 +1,4 @@
-name: Run on PR
+name: Test Python
 
 on:
   push:
