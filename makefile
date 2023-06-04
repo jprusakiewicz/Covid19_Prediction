@@ -6,7 +6,7 @@ download-bash:
 	wget -O data/covid_data.json $(URL)
 
 run_mlflow:
-	./start_mlflow.sh
+	./scripts/start_mlflow.sh
 
 kill_mlflow:
-	./kill_mlflow.sh
+	./scripts/kill_mlflow.sh
