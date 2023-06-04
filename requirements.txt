@@ -6,3 +6,4 @@ imbalanced-learn
 omegaconf
 pytest
 tensorflow-cpu
+mlflow

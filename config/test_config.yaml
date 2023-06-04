@@ -1,3 +1,6 @@
+mlflow:
+  tracking_uri: "http://localhost:5000"
+
 preprocessing:
   scaler:
     - todo
