@@ -1,5 +1,5 @@
 from tensorflow import keras
-from omegaconf import OmegaConf
+
 LAYERS_MAPPING = {
     "SimpleRNN": keras.layers.SimpleRNN,
     "LSTM": keras.layers.LSTM,
@@ -7,7 +7,7 @@ LAYERS_MAPPING = {
 }
 
 
-def build_keras_model(x_train, y_train, config):
+def build_model(x_train, y_train, config):
     keras.utils.set_random_seed(config.random_state)
 
     dataset_train = keras.preprocessing.timeseries_dataset_from_array(

@@ -6,5 +6,5 @@ def evaluate_model(model, x, y) -> dict:
 
     r2 = r2_score(y, y_pred)
     rmse = mean_squared_error(y, y_pred,
-                              squared=False)  # squared: If True returns MSE value, if False returns RMSE value. (we want RMSE)
+                              squared=False)  # squared: True returns MSE value, False returns RMSE value (we want RMSE)
     return {"RMSE": rmse, "r2": r2}

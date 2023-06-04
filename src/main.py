@@ -4,11 +4,11 @@ from sklearn.pipeline import make_pipeline
 
 sys.path.append('src')
 
-from read_data import read_data
-from train import build_model
+from data.read_data import read_data
+from data.preprocess import preprocess_data, get_preprocessor
+from models.sklearn import build_model as build_sklearn_model
+from models.kerass import build_model as build_keras_model
 from evaluate import evaluate_model
-from preprocess import preprocess_data, get_preprocessor
-from kerass import build_keras_model
 
 
 # todo kuba save artifacts (config, model, metrics, etc.) in one place
@@ -17,15 +17,17 @@ def run() -> dict:
     data = read_data()
     x_train, x_test, y_train, y_test = preprocess_data(data)
 
-    if config.model.model_library == "keras":
-        pipeline = build_keras_model(x_train, y_train, config.model)
-    elif config.model.model_library == "sklearn":
-        pipeline = make_pipeline(get_preprocessor(config.preprocessing),
-                                 build_model(config.model), verbose=2)
-        pipeline.fit(x_train, y_train)
+    match config.model.model_library:
+        case "keras":
+            pipeline = build_keras_model(x_train, y_train, config.model)
 
-    else:
-        raise ValueError(f"unsupported model library: {config.model.model_library}")
+        case "sklearn":
+            pipeline = make_pipeline(get_preprocessor(config.preprocessing),
+                                     build_sklearn_model(config.model), verbose=2)
+            pipeline.fit(x_train, y_train)
+
+        case _:
+            raise ValueError(f"unsupported model library: {config.model.model_library}")
 
     metrics = evaluate_model(model=pipeline, x=x_test, y=y_test)
     return metrics
