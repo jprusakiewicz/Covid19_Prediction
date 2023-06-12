@@ -7,7 +7,7 @@ from urllib3.exceptions import NewConnectionError
 sys.path.append('src')
 
 from data.read_data import read_data
-from data.preprocess import preprocess_data, get_preprocessor
+from data.preprocess import preprocess_data
 from models.sklearn import build_model as build_sklearn_model
 from models.kerass import build_model as build_keras_model
 from evaluate import evaluate_model
@@ -16,7 +16,7 @@ from evaluate import evaluate_model
 def run() -> dict:
     config = OmegaConf.load('config/test_config.yaml')
     data = read_data()
-    x_train, x_test, y_train, y_test = preprocess_data(data)
+    x_train_2d, x_test_2d, x_train_3d, x_test_3d, y_train, y_test = preprocess_data(data, config.preprocessing)
 
     try:
         mlflow.set_tracking_uri(config.mlflow.tracking_uri)
@@ -31,18 +31,19 @@ def run() -> dict:
         match config.model.model_library:
             case "keras":
                 mlflow.tensorflow.autolog()
-                pipeline = build_keras_model(x_train, y_train, config.model)
+                model = build_keras_model(x_train_3d, y_train, config.model)
+                x_test = x_test_3d
 
             case "sklearn":
                 mlflow.sklearn.autolog()
-                pipeline = make_pipeline(get_preprocessor(config.preprocessing),
-                                         build_sklearn_model(config.model), verbose=2)
-                pipeline.fit(x_train, y_train)
+                model = make_pipeline(build_sklearn_model(config.model))
+                model.fit(x_train_2d, y_train)
+                x_test = x_test_2d
 
             case _:
                 raise ValueError(f"unsupported model library: {config.model.model_library}")
 
-        metrics = evaluate_model(model=pipeline, x=x_test, y=y_test)
+        metrics = evaluate_model(model=model, x=x_test, y=y_test)
         mlflow.log_metrics(metrics)
 
     return metrics

@@ -7,3 +7,4 @@ omegaconf
 pytest
 tensorflow-cpu
 mlflow
+holidays

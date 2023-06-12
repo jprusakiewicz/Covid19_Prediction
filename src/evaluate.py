@@ -1,8 +1,8 @@
 from sklearn.metrics import mean_squared_error, r2_score
-import numpy as np
+
 
 def evaluate_model(model, x, y) -> dict:
-    y_pred = model.predict(x.astype(np.int64))
+    y_pred = model.predict(x)
 
     r2 = r2_score(y, y_pred)
     rmse = mean_squared_error(y, y_pred,

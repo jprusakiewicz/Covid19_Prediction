@@ -3,6 +3,7 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.kernel_ridge import KernelRidge
 from sklearn.gaussian_process import GaussianProcessRegressor
 from sklearn.ensemble import GradientBoostingRegressor
+from sklearn.neural_network import MLPRegressor
 
 
 def build_model(config):
@@ -19,6 +20,8 @@ def build_model(config):
             model = GaussianProcessRegressor
         case "GradientBoostingRegressor":
             model = GradientBoostingRegressor
+        case "MLPRegressor":
+            model = MLPRegressor
         case _:
             raise ValueError(f"model type {config.model.type} not supported")
     return model(**config.params)
