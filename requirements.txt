@@ -9,3 +9,4 @@ tensorflow-cpu
 mlflow
 holidays
 typer
+tqdm

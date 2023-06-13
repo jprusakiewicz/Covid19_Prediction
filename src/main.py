@@ -5,6 +5,8 @@ from omegaconf import OmegaConf
 from sklearn.pipeline import make_pipeline
 import mlflow
 from urllib3.exceptions import NewConnectionError
+from joblib import Parallel, delayed
+from tqdm import tqdm
 
 sys.path.append('src')
 
@@ -64,7 +66,7 @@ def run_from_yaml():
     print(metrics)
 
 
-def run_from_jsons():
+def run_from_jsons(parallel=False):
     json_files = get_json_files("config/generated_configs")
     merged_configs = []
     for file in json_files:
@@ -73,9 +75,15 @@ def run_from_jsons():
             merged_configs.extend(data)
 
     print(f"number of configs: {len(merged_configs)}")
-    for config in merged_configs:
-        metrics = run(config)
+    if parallel:
+        metrics = Parallel(n_jobs=4)(
+            delayed(run)(config) for config in tqdm(merged_configs)
+        )
         print(metrics)
+    else:
+        for config in merged_configs:
+            metrics = run(config)
+            print(metrics)
 
 
 if __name__ == "__main__":
