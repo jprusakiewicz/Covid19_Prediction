@@ -8,3 +8,4 @@ pytest
 tensorflow-cpu
 mlflow
 holidays
+typer

@@ -1,0 +1,16 @@
+mlflow:
+  tracking_uri: "http://localhost:5000"
+
+preprocessing:
+  additional_features: True
+  sequence_length: 27
+  use_scaler: False
+  train_test_split:
+    test_size: 0.3 # do not change
+    random_state: 420
+
+model:
+  model_library: "sklearn"
+  type: "GradientBoostingRegressor"
+  params:
+    subsample: 0.5

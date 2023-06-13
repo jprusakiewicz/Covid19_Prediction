@@ -1,0 +1,43 @@
+mlflow:
+  tracking_uri: "http://localhost:5000"
+
+preprocessing:
+  additional_features: True
+  sequence_length: 27
+  use_scaler: False
+  train_test_split:
+    test_size: 0.3 # do not change
+    random_state: 420
+
+model:
+  model_library: "keras"
+  random_state: 420
+  epochs: 40
+  layers:
+    - type: "SimpleRNN"
+      bidirectional: true
+      params:
+        units: 16
+        input_shape: [1, 1]
+        activation: "relu"
+    - type: "Dense"
+      params:
+        units: 8
+        activation: "relu"
+    - type: "Dense"
+      params:
+        units: 4
+        activation: "relu"
+    - type: "Dense"
+      params:
+        units: 1
+  early_stopping:
+    monitor: "mean_absolute_error" # try also "loss"
+    patience: 5
+    mode: "min"
+
+# model:
+#  model_library: "sklearn"
+#  type: "GradientBoostingRegressor"
+#  params:
+#    subsample: 10
