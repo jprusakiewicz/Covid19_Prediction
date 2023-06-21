@@ -81,7 +81,7 @@ def run_from_jsons(parallel=False):
         )
         print(metrics)
     else:
-        for config in merged_configs[0]:
+        for config in merged_configs[:3]:
             metrics = run(config)
             print(metrics)
 
