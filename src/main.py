@@ -81,11 +81,11 @@ def run_from_jsons(parallel=False):
         )
         print(metrics)
     else:
-        for config in merged_configs:
+        for config in merged_configs[0]:
             metrics = run(config)
             print(metrics)
 
 
 if __name__ == "__main__":
     # run_from_yaml()
-    run_from_jsons()
+    run_from_jsons(parallel=False)
