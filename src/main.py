@@ -6,6 +6,7 @@ from sklearn.pipeline import make_pipeline
 import mlflow
 from urllib3.exceptions import NewConnectionError
 from joblib import Parallel, delayed
+import random
 from tqdm import tqdm
 
 sys.path.append('src')
@@ -81,7 +82,9 @@ def run_from_jsons(parallel=False):
         )
         print(metrics)
     else:
-        for config in merged_configs[:3]:
+        random_idx = random.randint(1, 100)
+        print(random_idx)
+        for config in merged_configs[random_idx:random_idx+3]:
             metrics = run(config)
             print(metrics)
 
