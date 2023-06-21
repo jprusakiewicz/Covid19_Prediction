@@ -22,7 +22,7 @@ jobs:
       - name: azure login
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          credentials: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Checkout repository
         uses: actions/checkout@v2
