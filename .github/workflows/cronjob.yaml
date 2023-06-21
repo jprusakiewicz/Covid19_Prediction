@@ -1,0 +1,33 @@
+name: Trigger experiment on a CRON Schedule
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+
+jobs:
+  run_experiment:
+    name: Run Experiment
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          ref: cron_jobs
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Download dataset
+        run: make download-bash
+
+      - name: Run Main
+        run: |
+          python main.py
