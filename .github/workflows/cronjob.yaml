@@ -28,4 +28,4 @@ jobs:
 
       - name: Run Main
         run: |
-          python main.py
+          python src/main.py
