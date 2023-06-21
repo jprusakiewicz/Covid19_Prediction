@@ -1,4 +1,4 @@
-name: Trigger Site Rebuild on a CRON Schedule
+name: Trigger experiment on a CRON Schedule
 
 on:
   workflow_dispatch:
