@@ -6,7 +6,7 @@ preprocessing:
   sequence_length: 27
   use_scaler: False
   train_test_split:
-    test_size: 0.3 # do not change
+    test_size: 0.3
     random_state: 420
 
 model:

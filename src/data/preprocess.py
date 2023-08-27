@@ -71,6 +71,7 @@ def add_windows(df: pd.DataFrame, config):
 
 
 def remove_rows_with_nan(matrix, tensor, targets, config):
+    """ when shifting target, there are nan rows created, this step removes them"""
     assert matrix.shape[0] == tensor.shape[1] == len(targets)
     matrix = matrix[config.sequence_length - 1:-1]
     tensor = tensor[:, config.sequence_length - 1:-1, :]
@@ -114,25 +115,17 @@ def add_aggregates_3d(tensor):
 
 
 def preprocess_data(df: pd.DataFrame, config):
-    df = df[df["countryterritoryCode"] == "POL"]
-    df['dateRep'] = pd.to_datetime(df['dateRep'], format="%d/%m/%Y")
-    df = df.sort_values("dateRep")
+    df = df.sort_values("dateRep")  # you may remove this
 
     if config.additional_features:
-        df['is_holiday'] = df.apply(lambda row: check_if_holiday(int(row[1]), int(row[2]), int(row[3])), axis=1)
-        df['season'] = df.apply(lambda row: check_season(pd.to_datetime(row[0], format="%d/%m/%Y")), axis=1)
-        df['death_rate'] = df['deaths'] / df['cases']
-        df['death_rate'].fillna(0, inplace=True)
+        pass  # your feature engineering methods goes here
 
-    df = df.drop(
-        ["countryterritoryCode", "continentExp", "geoId", "countriesAndTerritories", "dateRep", "day", "month", "year",
-         "popData2020", "deaths"], axis=1)
-
-    columns_number = len(df.columns)  # do not move
+    columns_number = len(df.columns)  # do not move, important
 
     add_target(df)
 
     x, y = split_data(df)
+
     x_train, x_test, y_train, y_test = train_test_split(x, y,
                                                         test_size=config.train_test_split.test_size,
                                                         random_state=config.train_test_split.random_state,

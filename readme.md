@@ -1,4 +1,4 @@
-# Covid19 cases prediction
+# Timeseries regression prediction
 ## Template project for training and evaluating sklearn and keras based models
 
 ### How to use (tl;dr)
@@ -93,6 +93,3 @@ model:
 
 ### Generate new configs for gridsearch
 use `config/generate_configs.py` for this case
-
-## covid data used:
-The data comes from `https://www.ecdc.europa.eu/en/publications-data/data-daily-new-cases-covid-19-eueea-country`
